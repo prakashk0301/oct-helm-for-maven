@@ -10,20 +10,10 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-#- task: Maven@3
-#  inputs:
-#    mavenPomFile: 'pom.xml'
-#    publishJUnitResults: true
-#    testResultsFiles: '**/surefire-reports/TEST-*.xml'
-#    javaHomeOption: 'JDKVersion'
-#    mavenVersionOption: 'Default'
-#    mavenAuthenticateFeed: false
-#    effectivePomSkip: false
-#    sonarQubeRunAnalysis: false
 - task: Docker@2
   inputs:
-    containerRegistry: 'docker-acr-hacker6'
-    repository: 'ethansacr'
+    containerRegistry: 'docker_hub_pkw0301'
+    repository: 'pkw0301/mavenhelm'
     command: 'buildAndPush'
     Dockerfile: 'Dockerfile'
     tags: 'latest'
@@ -35,6 +25,8 @@ steps:
   inputs:
     command: 'package'
     chartPath: './myhelmmaven'
+    destination: '$(Build.SourcesDirectory)'
+    updateDependency: true
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.SourcesDirectory)'
